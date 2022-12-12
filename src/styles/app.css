@@ -1,0 +1,11 @@
+* {
+  text-align: center;
+}
+.list {
+  background-color: white;
+  color: black;
+}
+.completed {
+  background-color: #00ff00;
+  color: black;
+}

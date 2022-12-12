@@ -1,61 +1,57 @@
 import React from "react";
 
-const TodoList = ({ todos, setTodos, setEditTodo }) => {
-  const handleDelete = ({ id }) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+const TodoList = ({ todoList, setTodoList, editTodo, setEditTodo }) => {
+  const handleDelete = (todo) => {
+    setTodoList(
+      todoList.filter((item) => {
+        // console.log("item.id:", item.id);
+        return item.id !== todo.id;
+      })
+    );
   };
-  const handleComplete = (todo) => {
-    setTodos(
-      todos.map((item) => {
-        console.log("item:", item);
+  const handleCheck = (todo) => {
+    setTodoList(
+      todoList.map((item) => {
         if (item.id === todo.id) {
-          return { ...item, completed: !item.completed };
+          return {
+            ...item,
+            completed: !item.completed,
+          };
         }
         return item;
       })
     );
   };
   const handleEdit = ({ id }) => {
-    const findTodo = todos.find((todo) => {
-      return todo.id === id;
+    console.log("1:", 1);
+    console.log("id:", id);
+
+    const findTodo = todoList.find((item) => {
+      /////tim item nao trung voi cai id
+      return item.id === id;
     });
+    console.log("findTodo:", findTodo);
     setEditTodo(findTodo);
+    /// dua cai item nay vao editTodo bang setEditTodo
   };
+
   return (
     <div>
-      {todos.map((todo) => {
+      {todoList.map((todo) => {
         return (
-          <li className="todo-list " key={todo.id}>
-            {/* \\\\\\\\\\\\\{todo.id}//////////// ___{todo.title}___ */}
-            <input
-              type="text"
-              value={todo.title}
-              className={`list ${todos.completed ? "complete" : ""}`}
-              onChange={(e) => e.preventDefault()}
-            />
-            <div>
-              <button
-                className="button-complete task-button"
-                onClick={() => handleComplete(todo)}
-              >
-                <i className="fa fa-check-circle"></i>
-              </button>
-              <button
-                className="button-edit task-button"
-                onClick={() => handleEdit(todo)}
-              >
-                <i className="fa fa-edit"></i>
-              </button>
-              <button
-                className="button-delete task-button"
-                onClick={() => handleDelete(todo)}
-              >
-                <i className="fa fa-trash"></i>
-              </button>
+          <div key={todo.id}>
+            <div className={`list ${todo.completed ? "completed" : ""}`}>
+              {/* <div>{todo.id}</div> */}
+              <div>{todo.title}</div>
             </div>
-          </li>
+            <button onClick={() => handleDelete(todo)}>delete</button>
+            <button onClick={() => handleCheck(todo)}>check</button>
+            <button onClick={() => handleEdit(todo)}>edit</button>
+          </div>
         );
       })}
+
+      {/* setInput('ok123') */}
     </div>
   );
 };
